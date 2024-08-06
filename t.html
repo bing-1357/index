@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>生日快乐</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+            margin-top: 50px;
+            background: #eaf4fc;
+            background-image: url('https://gd-hbimg.huaban.com/0e99b7250064f434d702fe98c324699cf8a0c3c8cf8de-5rZKXA_fw1200'); /* 设置背景图片 */
+            background-size: cover; /* 覆盖整个屏幕 */
+            background-position: center; /* 居中显示 */
+            /* background-repeat: no-repeat; 不重复 */
+        }
+        .happy-birthday {
+            font-size: 48px;
+            color: #f47920;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        .cake-image {
+            width: 300px; /* 根据需要调整图片大小 */
+            height: auto;
+            margin-top: 20px;
+        }
+        .heart-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* 限制爱心在容器内 */
+            pointer-events: none; /* 确保容器不干扰页面的其他交互 */
+        }
+        .heart {
+            width: 20px;
+            height: 18px;
+            background-color: red;
+            position: absolute;
+            top: -20px; /* 初始位置在容器外 */
+            left: 50%;
+            transform: translateX(-50%) rotate(-45deg);
+            transform-origin: 0 100%;
+            opacity: 0; /* 初始透明度为0 */
+        }
+        .heart:before,
+        .heart:after {
+            content: "";
+            width: 20px;
+            height: 18px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+        }
+        .heart:before {
+            left: 10px;
+        }
+        .heart:after {
+            left: 0;
+            top: -9px;
+        }
+        @keyframes fall {
+            0% { top: -20px; opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        #audioControl {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+  }
+    </style>
+</head>
+<body>
+    <div id="audioControl">
+        <audio id="myAudio" preload="auto" autoplay muted>
+            <source src="生日快乐.mp3" type="audio/mpeg">
+            您的浏览器不支持 audio 元素。
+          </audio>
+        <button id="togglePlay">点 我</button>
+      </div>
+    <div class="happy-birthday">生日快乐！</div>
+    <div class="message">愿你的每一天都充满快乐和惊喜！</div>
+    <!-- 以下是添加的图片代码 -->
+    <img src="https://gd-hbimg.huaban.com/a99ea0bb460d409215b359206d2026616c98a5125bcafd-xWARd4" alt="生日蛋糕" class="cake-image">
+    <div class="heart-container"></div> <!-- 新增爱心容器 -->
+    <script>
+        // 创建并下落爱心
+        function createFallingHearts() {
+            const heartContainer = document.querySelector('.heart-container');
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animation = 'fall ' + (Math.random() * 3 + 2) + 's linear forwards';
+            heartContainer.appendChild(heart);
+
+            // 爱心落下后移除，防止DOM过载
+            heart.addEventListener('animationend', function() {
+                heart.remove();
+            });
+
+            // 设置延迟时间来降低爱心出现的频率
+            setTimeout(createFallingHearts, Math.random() * 2000 + 1000); // 最小延迟1000ms，最大延迟3000ms
+        }
+
+        createFallingHearts();
+
+            // JavaScript代码
+    var audio = document.getElementById('myAudio');
+    var togglePlayButton = document.getElementById('togglePlay');
+    // 当音频可以播放时取消静音
+    audio.addEventListener('canplay', function() {
+    audio.muted = false;
+    });
+    // 播放/暂停音频的函数
+    function togglePlay() {
+        if (audio.paused) {
+        audio.play();
+        } else {
+        audio.pause();
+        }
+    }
+
+    // 为按钮添加点击事件
+    togglePlayButton.addEventListener('click', togglePlay);
+    </script>
+</body>
+</html>
